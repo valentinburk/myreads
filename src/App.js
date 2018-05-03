@@ -17,6 +17,18 @@ class App extends Component {
     })
   }
 
+  changeShelf = (book, shelf) => {
+    console.log(book, shelf);
+    BooksAPI.update(book, shelf).then(
+      this.setState(state => ({
+        books: state.books.map(b => {
+          if (b.id === book.id) b.shelf = shelf;
+          return b;
+        })
+      }))
+    );
+  }
+
   render() {
     return (
       <div>
@@ -26,12 +38,15 @@ class App extends Component {
                 <h1>MyReads</h1>
               </div>
               <BookShelf
+                changeShelf={this.changeShelf}
                 shelfName='Currently Reading'
                 books={this.state.books.filter(b => b.shelf === 'currentlyReading')} />
               <BookShelf
+                changeShelf={this.changeShelf}
                 shelfName='Want To Read'
                 books={this.state.books.filter(b => b.shelf === 'wantToRead')} />
               <BookShelf
+                changeShelf={this.changeShelf}
                 shelfName='Read'
                 books={this.state.books.filter(b => b.shelf === 'read')} />
                 <div className="open-search">
