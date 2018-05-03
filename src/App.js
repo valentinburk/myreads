@@ -31,7 +31,6 @@ class App extends Component {
         books.push(book);
       }
 
-      console.log('changeShelf', books);
       this.setState({ books });
     });
   }

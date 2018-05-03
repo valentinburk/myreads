@@ -10,21 +10,22 @@ class AddBook extends Component {
   }
 
   updateQuery = (query) => {
-    this.setState({ query });
+    this.setState({ query, books: [] });
 
-    if (query !== '') {
-      BooksAPI.search(query).then(result => {
-        if (!result.error) {
-          const books = result.map(b => {
-            b.shelf = this.getShelf(b);
-            return b;
-          });
-          this.setState({ books });
-        } else {
-          this.setState({ books: [] })  ;
-        }
-      });
+    if (!query) {
+      return;
     }
+
+    const q = query;
+    BooksAPI.search(q).then(result => {
+      if (result && !result.error) {
+        const books = result.map(b => {
+          b.shelf = this.getShelf(b);
+          return b;
+        });
+        this.setState({ books });
+      }
+    });
   }
 
   getShelf = (book) => {
@@ -37,8 +38,6 @@ class AddBook extends Component {
 
   render() {
     const { query, books } = this.state;
-
-    console.log(books);
 
     return (
       <div className='search-books'>
