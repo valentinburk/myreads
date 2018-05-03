@@ -17,22 +17,22 @@ class App extends Component {
   }
 
   changeShelf = (book, shelf) => {
-    return BooksAPI.update(book, shelf).then(() => {
-      const books = this.state.books.map(b => {
-        if (b.id === book.id) {
-          b.shelf = shelf;
-        };
+    BooksAPI.update(book, shelf);
 
-        return b;
-      });
+    const books = this.state.books.map(b => {
+      if (b.id === book.id) {
+        b.shelf = shelf;
+      };
 
-      if (books.filter(b => b.id === book.id).length === 0) {
-        book.shelf = shelf;
-        books.push(book);
-      }
-
-      this.setState({ books });
+      return b;
     });
+
+    if (books.filter(b => b.id === book.id).length === 0) {
+      book.shelf = shelf;
+      books.push(book);
+    }
+
+    this.setState({ books });
   }
 
   renderBooksList = () => {
@@ -68,7 +68,8 @@ class App extends Component {
           <AddBook
             addedBooks={this.state.books}
             onAddingBook={(book, shelf) => {
-              this.changeShelf(book, shelf).then(() => history.push('/'));
+              this.changeShelf(book, shelf);
+              history.push('/');
             }}
           />
         )}/>
