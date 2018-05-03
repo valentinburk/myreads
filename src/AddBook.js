@@ -10,19 +10,20 @@ class AddBook extends Component {
   }
 
   updateQuery = (query) => {
-    this.setState({ query, books: [] });
+    this.setState({ query });
 
     if (!query) {
+      this.setState({ books: [] });
       return;
     }
 
-    const q = query;
-    BooksAPI.search(q).then(result => {
+    BooksAPI.search(query).then(result => {
       if (result && !result.error) {
         const books = result.map(b => {
           b.shelf = this.getShelf(b);
           return b;
         });
+        
         this.setState({ books });
       }
     });
