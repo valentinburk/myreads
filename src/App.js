@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import BookShelf from './BookShelf';
 import AddBook from './AddBook';
 import * as BooksAPI from './BooksAPI';
@@ -34,12 +34,15 @@ class App extends Component {
               <BookShelf
                 shelfName='Read'
                 books={this.state.books.filter(b => b.shelf === 'read')} />
+                <div className="open-search">
+                  <Link to='/search'>Add a book</Link>
+                </div>
             </div>
           )}/>
         <Route path='/search' render={({ history }) => (
           <AddBook
             onAddingBook={(book) => {
-              history.push('/')
+              history.push('/');
             }}
           />
         )}/>
