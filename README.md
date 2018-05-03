@@ -19,7 +19,6 @@ Application is created using [React](https://reactjs.org/).
 
 * [Installation](#usage)
 * [Usage](#usage)
-* [Instructions](#instructions)
 * [Contributions](#contributions)
 
 ## Installation
