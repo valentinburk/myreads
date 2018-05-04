@@ -5,15 +5,16 @@ import * as BooksAPI from './BooksAPI';
 
 class AddBook extends Component {
   state = {
+    booksFound: false,
     query: '',
     books: []
   }
 
   updateQuery = (query) => {
-    this.setState({ query });
+    this.setState({ query, booksFound: true });
 
     if (!query) {
-      this.setState({ books: [] });
+      this.setState({ books: [], booksFound: false });
       return;
     }
 
@@ -23,8 +24,9 @@ class AddBook extends Component {
           b.shelf = this.getShelf(b);
           return b;
         });
-        
-        this.setState({ books });
+        this.setState({ books: books, booksFound: true });
+      } else {
+        this.setState({ books: [], booksFound: false });
       }
     });
   }
@@ -38,7 +40,7 @@ class AddBook extends Component {
   }
 
   render() {
-    const { query, books } = this.state;
+    const { query, books, booksFound } = this.state;
 
     return (
       <div className='search-books'>
@@ -53,15 +55,21 @@ class AddBook extends Component {
           </div>
         </div>
         <div className='search-books-results'>
-          <ol className='books-grid'>
-            {books.map(book => (
-              <li key={book.id}>
-                <Book
-                  book={book}
-                  changeShelf={this.props.onAddingBook} />
-              </li>
-            ))}
-          </ol>
+          {((query && booksFound) || (!query && !booksFound)) ? (
+            <ol className='books-grid'>
+              {books.map(book => (
+                <li key={book.id}>
+                  <Book
+                    book={book}
+                    changeShelf={this.props.onAddingBook} />
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <div className='search-book-results-empty'>
+              No books found
+            </div>
+          )}
         </div>
       </div>
     );
